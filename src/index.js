@@ -8,6 +8,7 @@ import requerimientRouter from './routes/requerimiento.routes.js';
 import disciplinaRouter from './routes/disciplina.routes.js';
 import perfilRouter from './routes/perfil.routes.js';
 import procesoRequerimientoRouter from './routes/procesoRequerimiento.routes.js';
+import candidatoRouter from './routes/candidato.routes.js';
 
 const app = express();
 
@@ -22,5 +23,6 @@ app.use(requerimientRouter);
 app.use(disciplinaRouter);
 app.use(perfilRouter);
 app.use(procesoRequerimientoRouter);
+app.use(candidatoRouter);
 
 app.listen(PORT);
