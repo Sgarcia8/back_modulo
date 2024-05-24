@@ -12,9 +12,9 @@ export const getCandidatos = async (req, res) => {
         if (result.rows.length > 0) {
             res.status(200).json(result.rows);
         } else {
-            res.status(404).json({ message: 'No se encontraron disciplinas' });
+            res.status(404).json({ message: 'No se encontraron candidatos' });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Error al obtener las disciplinas' });
+        res.status(500).json({ error: 'Error al obtener los candidatos' });
     }
 };
