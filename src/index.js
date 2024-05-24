@@ -7,6 +7,7 @@ import empleadoRouter from './routes/empleado.routes.js';
 import requerimientRouter from './routes/requerimiento.routes.js';
 import disciplinaRouter from './routes/disciplina.routes.js';
 import perfilRouter from './routes/perfil.routes.js';
+import procesoRequerimientoRouter from './routes/procesoRequerimiento.routes.js';
 
 const app = express();
 
@@ -20,5 +21,6 @@ app.use(empleadoRouter);
 app.use(requerimientRouter);
 app.use(disciplinaRouter);
 app.use(perfilRouter);
+app.use(procesoRequerimientoRouter);
 
 app.listen(PORT);
