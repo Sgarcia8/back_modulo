@@ -5,8 +5,8 @@ export const getDisciplinas = async(req,res) =>{
         const sql = 'SELECT * FROM disciplina';
         const result = await open(sql, [], true);
 
-        if (result.rows.length > 0) {
-            res.status(200).json(result.rows);
+        if (result.length > 0) {
+            res.status(200).json(result);
         } else {
             res.status(404).json({ message: 'No se encontraron disciplinas' });
         }

@@ -7,8 +7,8 @@ export const getPerfiles = async(req,res) =>{
         const sql = 'SELECT * FROM perfil WHERE iddisciplina = :disciplina';
         const result = await open(sql, [disciplina], true);
 
-        if (result.rows.length > 0) {
-            res.status(200).json(result.rows);
+        if (result.length > 0) {
+            res.status(200).json(result);
         } else {
             res.status(404).json({ message: 'No se encontraron perfiles' });
         }

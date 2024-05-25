@@ -4,9 +4,8 @@ export const getEmpleados = async(req,res) =>{
     try {
         const sql = 'SELECT * FROM empleado';
         const result = await open(sql, [], true);
-
-        if (result.rows.length > 0) {
-            res.status(200).json(result.rows);
+        if (result.length > 0) {
+            res.status(200).json(result);
         } else {
             res.status(404).json({ message: 'No se encontraron empleados' });
         }
@@ -15,21 +14,37 @@ export const getEmpleados = async(req,res) =>{
     }
 };
 
+export const getEmpleadosAG = async(req,res) =>{
+    try {
+        const sql = `SELECT e.codempleado, e.nomempleado || ' ' || e.apellempleado nombre
+                    FROM empleado e, cargo c, tipocargo tc 
+                    WHERE e.codempleado = c.codempleado
+                        AND c.idtipocargo = tc.idtipocargo
+                        AND tc.idtipocargo = 'AG'`;
+        const result = await open(sql, [], true);
+        if (result.length > 0) {
+            res.status(200).json(result);
+        } else {
+            res.status(404).json({ message: 'No se encontraron empleados' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Error al obtener empleados' });
+    }
+};
 
 export const getEmpleadosByCorreoAndCargo = async (req, res) => {
     try {
-        const correo = req.query.correo;
+        const correo = req.body.correo;
         // Consulta SQL para buscar empleado por correo electrónico
-        const sql = `SELECT e.*, c.idtipocargo
+        const sql = `SELECT e.codempleado, e.nomempleado, e.apellempleado, to_char(e.fechaingre,'DD-MM-YYYY') as fechaingre, e.correo, c.idtipocargo
                     FROM empleado e, cargo c, tipocargo tc 
                     WHERE e.correo = :correo 
                         AND e.codempleado = c.codempleado
                         AND c.idtipocargo = tc.idtipocargo
                         AND (tc.idtipocargo = 'ACL' OR tc.idtipocargo = 'AG')`;
         const result = await open(sql, { correo }, true);
-
-        if (result.rows.length > 0) {
-            res.status(200).json(result.rows);
+        if (result.length > 0) {
+            res.status(200).json(result);
         } else {
             res.status(404).json({ message: 'No se encontraron empleados' });
         }

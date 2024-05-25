@@ -8,8 +8,8 @@ export const getProcesoRequerimiento = async (req, res) => {
         
         const result = await open(sql, [codempleado], true);
 
-        if (result.rows.length > 0) {
-            res.status(200).json(result.rows);
+        if (result.length > 0) {
+            res.status(200).json(result);
         } else {
             res.status(404).json({ message: 'No se encontraron procesos de requerimientos' });
         }

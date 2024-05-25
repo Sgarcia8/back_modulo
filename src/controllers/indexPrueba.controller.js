@@ -9,8 +9,8 @@ export const getPruebas = async (req, res) =>{
                     WHERE iddisciplina = :iddisciplina`;
         const result = await open(sql, [iddisciplina], true);
         
-        if (result.rows.length > 0) {
-            res.status(200).json(result.rows);
+        if (result.length > 0) {
+            res.status(200).json(result);
         } else {
             res.status(404).json({ message: 'No se encontron pruebas' });
         }

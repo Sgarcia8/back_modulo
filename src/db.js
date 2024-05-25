@@ -1,6 +1,6 @@
 import pkg from "oracledb";
 
-const {getConnection} = pkg;
+const { getConnection } = pkg;
 
 import {
   DB_HOST,
@@ -15,12 +15,13 @@ const db = {
   connectString: `${DB_HOST}:${DB_PORT}/xe`
 }
 
-async function open(sql, binds, autoCommit){
+async function open(sql, binds, autoCommit) {
   let con;
   try {
     con = await getConnection(db);
     const result = await con.execute(sql, binds, { autoCommit });
-    return result;
+    const transformedResult = transformResult(result);
+    return transformedResult;
   } catch (error) {
     console.error('Error ejecutando la consulta: ', error);
   } finally {
@@ -34,5 +35,14 @@ async function open(sql, binds, autoCommit){
   }
 };
 
-
-export {open};
+function transformResult(result) {
+  const { metaData, rows } = result;
+  return rows.map(row => {
+    const obj = {};
+    metaData.forEach((col, index) => {
+      obj[col.name] = row[index];
+    });
+    return obj;
+  });
+}
+export { open };
