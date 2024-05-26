@@ -2,7 +2,7 @@ import {open} from '../db.js';
 
 export const getRequerimientos = async(req,res) =>{
     try {
-        const sql = 'SELECT * FROM requerimiento where emp_codempleado IS NULL';
+        const sql = 'SELECT * FROM requerimiento';
         const result = await open(sql, [], true);
         if (result.length > 0) {
             res.status(200).json(result);
@@ -34,12 +34,10 @@ export const getRequerimientosByAnalistC = async ({codeEmp}, res) => {
 export const getRequerimientosByAnalistG = async (req, res) => {
     try {
         const empleado = req.body.codeEmp;
-        console.log(empleado);
         const sql = `SELECT *
                     FROM requerimiento
                     WHERE emp_codempleadoag = :empleado`;
         const result = await open(sql, { empleado }, true);
-        console.log(result)
         if (result.length > 0) {
             res.status(200).json(result);
         } else {
@@ -49,13 +47,14 @@ export const getRequerimientosByAnalistG = async (req, res) => {
         res.status(500).json({ error: 'Error al obtener los requerimientos' });
     }
 };
-export const updateRequerimientoAC = async (req, res) => {
+export const updateRequerimiento = async (req, res) => {
     try{
-        const {consecreque, emp_codempleadoac} = req.body;
+        const {consecreque, emp_codempleadoac, emp_codempleadoag} = req.body;
         const sql = `UPDATE requerimiento
-                    SET emp_codempleado = :emp_codempleadoac
+                    SET emp_codempleado = :emp_codempleadoac,
+                    emp_codempleadoag = :emp_codempleadoag
                     WHERE consecreque = :consecreque`;
-        const results = await open(sql,{emp_codempleadoac,consecreque},true);
+        const results = await open(sql,{consecreque,emp_codempleadoac, emp_codempleadoag},true);
         if(results.rowsAffected > 0){
             res.status(204).send();
         }else {
@@ -67,20 +66,3 @@ export const updateRequerimientoAC = async (req, res) => {
     }
 };
 
-export const updateRequerimientoAG = async (req, res) => {
-    try{
-        const {consecreque, emp_codempleadoag} = req.body;
-        const sql = `UPDATE requerimiento
-                    SET emp_codempleadoag = :emp_codempleadoag
-                    WHERE consecreque = :consecreque`;
-        const results = await open(sql,{emp_codempleadoag,consecreque},true);
-        if(results.rowsAffected > 0){
-            res.status(204).send();
-        }else {
-            res.status(404).json({message: 'No se encontro al analista general seleccionado'});
-        }
-    
-    }catch (error) {
-        res.status(500).json({ error: 'Error al enviar el correo' });
-    }
-};

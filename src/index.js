@@ -12,6 +12,7 @@ import candidatoRouter from './routes/candidato.routes.js';
 import hvRouter from './routes/hv.routes.js';
 import ProcesoCandidatoRouter from './routes/procesoCandidato.routes.js';
 import pruebaRouter from './routes/prueba.routes.js';
+import perfilFaseRouter from './routes/perfilFase.routes.js';
 
 const app = express();
 
@@ -30,5 +31,6 @@ app.use(candidatoRouter);
 app.use(hvRouter);
 app.use(ProcesoCandidatoRouter);
 app.use(pruebaRouter);
+app.use(perfilFaseRouter)
 
 app.listen(PORT);

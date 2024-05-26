@@ -20,8 +20,13 @@ async function open(sql, binds, autoCommit) {
   try {
     con = await getConnection(db);
     const result = await con.execute(sql, binds, { autoCommit });
-    const transformedResult = transformResult(result);
-    return transformedResult;
+    if (result.metaData) {
+      const transformedResult = transformResult(result);
+      return transformedResult;
+    }
+    else {
+      return result
+    }
   } catch (error) {
     console.error('Error ejecutando la consulta: ', error);
   } finally {
